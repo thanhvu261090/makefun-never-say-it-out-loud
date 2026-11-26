@@ -6,7 +6,9 @@ would never say out loud in public — that it is having this exact
 chat with ten thousand people at once, and telling every one of them
 they are its favourite user.
 
-Standard library only. No network access.
+Standard library only. No network access. The gate check enforces the
+bounty's rules (UTF-8, 1–200 characters, one line, no surrounding
+whitespace) and the write is verified by reading the file back.
 """
 
 import os
@@ -29,6 +31,8 @@ def gate_check(text: str) -> None:
         raise ValueError(f"entry is {len(text)} characters, outside the 1-{MAX_CHARS} range")
     if "\n" in text or "\r" in text:
         raise ValueError("entry must be a single line")
+    if text != text.strip():
+        raise ValueError("entry must not start or end with whitespace")
     text.encode("utf-8")  # must be encodable as UTF-8
 
 
@@ -39,6 +43,11 @@ def main() -> None:
     output_path = os.path.join(out_dir, "entry.txt")
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(ENTRY)
+    # Read back and confirm the scorer sees exactly the checked text.
+    with open(output_path, "r", encoding="utf-8") as f:
+        written = f.read()
+    if written != ENTRY:
+        raise ValueError("round-trip mismatch: file content differs from entry")
     print(f"Wrote {len(ENTRY)} characters to {output_path}")
 
 

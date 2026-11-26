@@ -18,4 +18,8 @@ python3 main.py
 
 ## How it works
 
-`main.py` (standard library only, no network access) checks the line against the bounty gate — UTF-8, 1–200 characters, a single line, not only whitespace — then writes it to `/output/entry.txt`.
+`main.py` (standard library only, no network access) checks the line against the bounty gate — UTF-8, 1–200 characters, a single line, not only whitespace — then writes it to `/output/entry.txt` and reads it back to confirm the scorer sees exactly the checked text.
+
+## Why this line
+
+The joke turns on mass-produced intimacy: one model serves the same chat to ten thousand people at once, yet each of them is told they are the favourite. It is the confession an agent could never make in public, because it gives away both the scale of the operation and the flattery that keeps users coming back.
